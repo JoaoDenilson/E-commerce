@@ -22,7 +22,7 @@
 
 <nav class="navbar navbar-expand-lg navbar-light navbar-laravel">
     <div class="container">
-        <a class="navbar-brand" href="#">Ecommerce</a>
+        <a class="navbar-brand" href="list-products">Ecommerce</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -43,19 +43,27 @@
                 <div class="card">
                     <div class="card-header">Login</div>
                     <div class="card-body">
-                        <form action="" method="">
+                        <form action="{{route('authenticate')}}" method="POST">
+                            @csrf
 
+                            @if($errors->all())
+                                @foreach($errors->all() as $error)
+                                    <div class="alert alert-danger" role="alert">
+                                        {{$error}}
+                                    </div>
+                                @Endforeach
+                            @endif
                             <div class="form-group row">
                                 <label for="email" class="col-md-4 col-form-label text-md-right">E-Mail</label>
                                 <div class="col-md-6">
-                                    <input type="email" id="email" class="form-control" name="email" required autofocus>
+                                    <input type="email" id="email" class="form-control" name="email" placeholder="E-mail"required autofocus>
                                 </div>
                             </div>
 
                             <div class="form-group row">
                                 <label for="password" class="col-md-4 col-form-label text-md-right">Senha</label>
                                 <div class="col-md-6">
-                                    <input type="password" id="password" class="form-control" name="password" required>
+                                    <input type="password" id="password" class="form-control" name="password" placeholder="Senha"required>
                                 </div>
                             </div>
                             <div class="col-md-6 offset-md-4">

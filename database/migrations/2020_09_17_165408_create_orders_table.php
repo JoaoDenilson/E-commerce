@@ -18,9 +18,9 @@ class CreateOrdersTable extends Migration
             $table->foreignId('user_id'); //Chave estrangeira de users
             $table->foreignId('address_id'); //Chave estrangeira de adresses
             $table->timestamps();
-            
+
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('address_id')->references('id')->on('adresses')->onDelete('cascade');
+            $table->foreign('address_id')->references('id')->on('addresses')->onDelete('cascade');
         });
     }
 

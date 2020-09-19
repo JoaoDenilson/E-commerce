@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateAdressesTable extends Migration
+class CreateAddressesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,16 @@ class CreateAdressesTable extends Migration
      */
     public function up()
     {
-        Schema::create('adresses', function (Blueprint $table) {
+        Schema::create('addresses', function (Blueprint $table) {
             $table->id();
             $table->string('city', 25); //Cidade
             $table->string('uf', 2); //UF
-            $table->string('street', 10); //Rua
-            $table->string('neighborhood', 100); //Bairro
+            $table->string('street', 50); //Rua
+            $table->string('neighborhood', 30); //Bairro
             $table->string('cep',9); //CEP da cidade
             $table->integer('numberHome'); //Numero da casa
             $table->foreignId('user_id'); //Chave estrangeira de Users
+            $table->string('complement')->nullable();
             $table->timestamps();
 
 
