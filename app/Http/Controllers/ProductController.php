@@ -15,8 +15,8 @@ class ProductController extends Controller
     public function index()
     {
         $product = Product::where('discount','>',0)->get()->toArray();
-        dd($product);
-        //return view('pacientes.listarTudo', ['pacientes'=>$paciente]);
+        //dd($product);
+        return view('listProducts', ['products'=>$product]);
     }
 
     /**
