@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\OrderProductController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\Auth\AuthController;
 use Illuminate\Support\Facades\Route;
@@ -14,9 +15,6 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/', function () {
-    return view('welcome');
-});
 
 Route::get('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/authenticate', [AuthController::class, 'authenticate'])->name('authenticate');
@@ -26,5 +24,6 @@ Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::get('list-products', [ProductController::class, 'index'])->name('list.product');
 Route::get('cart', [ProductController::class, 'cart'])->name('cart');
+Route::get('purchase-made', [OrderProductController::class, 'create'])->name('purchase-made');
 Route::get('cart/{id}', [ProductController::class, 'show'])->name('cart.add');
 

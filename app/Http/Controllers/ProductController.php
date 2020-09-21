@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Address;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -102,7 +103,11 @@ class ProductController extends Controller
     public function cart()
     {
         if(Auth::check()){
-
+            if (session_status() == PHP_SESSION_NONE) {
+                session_start();
+            }
+            $user_id =  $_SESSION['user']['id'];
+            $_SESSION['endereco'] = Address::where('user_id','=',$user_id)->get()->toArray();
             return view('cart');
         }
 

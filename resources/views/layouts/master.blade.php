@@ -38,6 +38,9 @@
                             <a class="nav-link disabled">Olá, {{$_SESSION['user']['name']}}</a>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link" href="/cart">Carrinho</a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link" href="/logout">Sair</a>
                         </li>
                     </ul>
