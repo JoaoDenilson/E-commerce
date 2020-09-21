@@ -29,6 +29,8 @@ class AuthController extends Controller
 
         if (Auth::attempt($credentials)) {
             // Authentication passed...
+            session_start();
+            $_SESSION['user'] = Auth::user();
             return redirect()->intended('list-products');
         }
 
@@ -38,7 +40,9 @@ class AuthController extends Controller
     public function logout()
     {
         Auth::logout();
-        return redirect()->route('list-products');
+        session_start();
+        session_destroy();
+        return redirect()->intended('list-products');
     }
 
     public function login()

@@ -1,4 +1,10 @@
+@php
+    if (session_status() == PHP_SESSION_NONE) {
+        session_start();
+    }
+@endphp
 <!DOCTYPE html>
+
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     <!-- Required meta tags -->
@@ -19,23 +25,37 @@
     <title>Ecommerce</title>
 </head>
     <body>
-
+    <div class="container">
     <nav class="navbar navbar-expand-lg navbar-light navbar-laravel">
-        <div class="container">
             <a class="navbar-brand" href="list-products">Ecommerce</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav ml-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="/login">Login</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/register">Register</a>
-                    </li>
-                </ul>
-            </div>
+            @if(isset ($_SESSION['user']))
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav ml-auto">
+                        <li >
+                            <a class="nav-link disabled">Olá, {{$_SESSION['user']['name']}}</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/logout">Sair</a>
+                        </li>
+                    </ul>
+                </div>
+            @else
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/login">Login</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/register">Register</a>
+                        </li>
+                    </ul>
+                </div>
+            @endif
+
+
         </div>
     </nav>
 

@@ -25,5 +25,6 @@ Route::post('/register-user', [AuthController::class, 'register'])->name('regist
 Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::get('list-products', [ProductController::class, 'index'])->name('list.product');
-Route::get('products-details/{id}', [ProductController::class, 'show'])->name('product.details');
+Route::get('cart', [ProductController::class, 'cart'])->name('cart');
+Route::get('cart/{id}', [ProductController::class, 'show'])->name('cart.add');
 
