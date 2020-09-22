@@ -16,7 +16,10 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $product = Product::where('discount','>',0)->get()->toArray();
+        $product = Product::where([
+            ['discount','>',0],
+            ['quantityProduct', '>',0]
+        ])->get()->toArray();
         //dd($product);
         return view('listProducts', ['products'=>$product]);
     }
@@ -51,7 +54,7 @@ class ProductController extends Controller
     public function show($id)
     {
         if(Auth::check()){
-            $product = Product::select('id','discount','name','valueProduct','url_image')->where('id','=',$id)->get()->toArray()[0];
+            $product = Product::select('id','discount','name','valueProduct','url_image')->where([['id','=',$id],['quantityProduct', '>',0]])->get()->toArray()[0];
             $product['quantityPurchased'] = 1;
             //($product);
             if (session_status() == PHP_SESSION_NONE) {
@@ -144,6 +147,12 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
-        //
+        if(Auth::check()) {
+            if (session_status() == PHP_SESSION_NONE) {
+                session_start();
+            }
+            unset($_SESSION['carrinho'][$id]);
+            return redirect()->route('cart');
+        }
     }
 }

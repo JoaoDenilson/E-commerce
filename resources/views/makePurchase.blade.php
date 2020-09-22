@@ -6,6 +6,14 @@
 @extends('layouts.master')
 
 @section('content')
+    @php
+        //Função calculo de desconto.
+        $valorCompra = 0;
+        foreach($pedido as  $aux){
+            $valorCompra = $valorCompra + $aux->valueUnit;
+        }
+
+    @endphp
 {{--    <h1>teste</h1>--}}
 <div class="container mb-4">
     <div style="width: 800px">
@@ -17,21 +25,29 @@
             <div class="row">
                 <div class="col-xs-6 col-sm-6 col-md-6">
                     <address>
-                        <strong>Nome do comprador </strong>
-                        <br>
-                        Bairro: Teste
-                        <br>
-                        Rua: teste..... Numero: 10
-                        <br>
-                        <bbr>Telefone:</bbr> (213) 484-6829
+
+                        @if(isset ($_SESSION['endereco']))
+                            @foreach($_SESSION['endereco'] as $aux)
+                                <strong> {{$_SESSION['user']['name']}}</strong>
+                                <br>
+                                Bairro: {{$aux['neighborhood']}}
+                                <br>
+                                Rua: {{$aux['street']}} Numero: {{$aux['numberHome']}}
+                                <br>
+                                CEP: {{$aux['cep']}}
+                                <br>
+                                <bbr>Telefone:</bbr> {{$_SESSION['user']['phone']}}
+                            @endforeach
+                        @endif
                     </address>
                 </div>
                 <div class="col-xs-6 col-sm-6 col-md-6 text-right">
                     <p>
-                        <em>Data: 21/09/2020</em>
+
+                        <em>{{ date("d/m/Y")}}</em>
                     </p>
                     <p>
-                        <em>Numero do pedido #: 34522677W</em>
+                        <em>Numero do pedido #: {{$pedido[0]->order_id}}</em>
                     </p>
                 </div>
             </div>
@@ -43,24 +59,26 @@
                 <table class="table">
                     <thead>
                     <tr>
-                        <th>Items</th>
+                        <th>Item</th>
                         <th>#</th>
                         <th class="text-center">Preço</th>
-                        <th class="text-center">Total </th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <td class="col-md-9"><em>Baked Rodopa Sheep Feta</em></h4></td>
-                        <td class="col-md-1" style="text-align: center"> 2 </td>
-                        <td class="col-md-1 text-center">13 R$</td>
-                        <td class="col-md-1 text-center">26 R$</td>
-                    </tr>
+                    @foreach($pedido as $aux)
+                        <tr>
+                            <td class="col-md-9"><em>{{$aux->name}}</em></td>
+                            <td class="col-md-1" style="text-align: center"> {{$aux->quantityProduct}} </td>
+                            <td class="col-md-1 text-center">{{$aux->valueUnit}}</td>
+                        </tr>
+
+                    @endforeach
+
                     <tr>
                         <td>   </td>
                         <td>   </td>
-                        <td class="text-right"><h5><strong>Total: </strong></h5></td>
-                        <td class="text-center text-danger"><h5><strong>31.53</strong></h5></td>
+                        <td class="text-right"><h5><strong>Total: {{$valorCompra}}</strong></h5></td>
+                        <td class="text-center text-danger"><h5><strong></strong></h5></td>
                     </tr>
                     </tbody>
                 </table>

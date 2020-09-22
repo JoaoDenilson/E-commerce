@@ -10,14 +10,18 @@
     //Função calculo de desconto.
      $valorTotal = 0;
      $subTotal = 0;
+     $valorDesconto = 0;
      if (isset($_SESSION['carrinho'])){
         foreach($_SESSION['carrinho'] as $aux){
             $n = $aux['discount'].'0.0';
             $pctm = floatval($n);
             $valorQuantity = $aux['valueProduct'] * $aux['quantityPurchased'];
             $valorProduto = $valorQuantity - ( $valorQuantity / 100 * $pctm);
+            $Desconto = $valorQuantity / 100 * $pctm;
             //valor sub-total
             $subTotal = $subTotal + $valorQuantity;
+            //Valor do desconto
+            $valorDesconto = $valorDesconto + $Desconto;
             //valor total da compra
             $valorTotal = $valorTotal + $valorProduto;
         }
@@ -57,6 +61,13 @@
                     </tbody>
                 </table>
                 <h5>Carrinho de compras</h5>
+                @if($errors->all())
+                    @foreach($errors->all() as $error)
+                        <div class="alert alert-danger" role="alert">
+                            {{$error}}
+                        </div>
+                    @Endforeach
+                @endif
                 <table class="table table-striped">
                     <thead>
                         <tr>
@@ -70,14 +81,14 @@
                     </thead>
                     <tbody>
                         @if(isset ($_SESSION['carrinho']))
-                                @foreach($_SESSION['carrinho'] as $aux)
-                                    <tr>
+                            @foreach($_SESSION['carrinho'] as $key => $aux)
+                                    <tr >
                                         <td><img src="{{asset('itens_image/'.$aux['url_image'])}}" alt="Image" height="50" width="50"/> </td>
                                         <td>{{$aux['name']}}</td>
                                         <td>{{$aux['discount']}}0 %</td>
                                         <td class="text-center">{{$aux['quantityPurchased']}}</td>
                                         <td class="text-right">{{$aux['valueProduct']}}</td>
-                                        <td class="text-right"><button class="btn btn-sm btn-danger"><i class="fa fa-trash"></i> </button> </td>
+                                        <td class="text-right"><a class="link" href="/cart-delete/{{$key}}"><button class="btn btn-sm btn-danger"><i class="fa fa-trash"></i> </button> </a></td>
                                     </tr>
 
                                 @endforeach
@@ -90,6 +101,14 @@
                             <td></td>
                             <td>Sub-Total</td>
                             <td class="text-right">{{$subTotal}},00 R$</td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td>Desconto</td>
+                            <td class="text-right">{{$valorDesconto}},00 R$</td>
                         </tr>
                         <tr>
                             <td></td>
@@ -109,7 +128,7 @@
                     <a class="btn btn-primary" href="list-products" role="button">Continue comprando</a>
                 </div>
                 <div class="col-sm-12 col-md-6 text-right">
-                    <a class="btn btn-lg btn-block btn-success text-uppercase" href="#" role="button">Finalizar comprar</a>
+                    <a class="btn btn-lg btn-block btn-success text-uppercase" href="purchase-made" role="button">Finalizar comprar</a>
                 </div>
             </div>
         </div>
